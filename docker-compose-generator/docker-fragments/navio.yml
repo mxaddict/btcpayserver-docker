@@ -1,0 +1,35 @@
+services:
+  naviod:
+    restart: unless-stopped
+    container_name: btcpayserver_naviod
+    image: navio/naviod:latest
+    environment:
+      NAVIO_NETWORK: ${NBITCOIN_NETWORK:-testnet}
+      NAVIO_EXTRA_ARGS: |
+        rpcport=33577
+        rpcbind=0.0.0.0:33577
+        rpcallowip=0.0.0.0/0
+        port=33570
+        whitelist=0.0.0.0/0
+    expose:
+      - "33577"
+      - "33570"
+    volumes:
+      - "navio_datadir:/data"
+      - "navio_wallet_datadir:/walletdata"
+  nbxplorer:
+    environment:
+      NBXPLORER_CHAINS: "nav"
+      NBXPLORER_NAVRPCURL: http://naviod:33577/
+      NBXPLORER_NAVNODEENDPOINT: naviod:33570
+    volumes:
+      - "navio_datadir:/root/.navio"
+  btcpayserver:
+    environment:
+      BTCPAY_CHAINS: "nav"
+      BTCPAY_NAVEXPLORERURL: http://nbxplorer:24445/
+volumes:
+  navio_datadir:
+  navio_wallet_datadir:
+required:
+  - "nbxplorer"
