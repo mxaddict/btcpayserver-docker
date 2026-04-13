@@ -17,13 +17,21 @@ services:
     volumes:
       - "navio_datadir:/data"
       - "navio_wallet_datadir:/walletdata"
+      # libblsct.so shared volume: naviod entrypoint must copy
+      # /usr/local/lib/libblsct.so to /opt/libblsct/ on startup
+      - "navio_libblsct:/opt/libblsct"
   nbxplorer:
     environment:
       NBXPLORER_CHAINS: "nav"
       NBXPLORER_NAVRPCURL: http://naviod:33577/
       NBXPLORER_NAVNODEENDPOINT: naviod:33570
+      # Native P/Invoke needs libblsct.so for BLSCT address derivation
+      LD_LIBRARY_PATH: "/opt/libblsct"
+    depends_on:
+      - naviod
     volumes:
       - "navio_datadir:/root/.navio"
+      - "navio_libblsct:/opt/libblsct:ro"
   btcpayserver:
     environment:
       BTCPAY_CHAINS: "nav"
@@ -31,5 +39,6 @@ services:
 volumes:
   navio_datadir:
   navio_wallet_datadir:
+  navio_libblsct:
 required:
   - "nbxplorer"
