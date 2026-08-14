@@ -118,5 +118,13 @@
     "LNDFragment": null,
     "EclairFragment": null,
     "PhoenixdFragment": null
+  },
+  {
+    "Crypto": "nav",
+    "CryptoFragment": "navio",
+    "CLightningFragment": null,
+    "LNDFragment": null,
+    "EclairFragment": null,
+    "PhoenixdFragment": null
   }
 ]
