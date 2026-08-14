@@ -6,14 +6,14 @@ services:
     environment:
       NAVIO_NETWORK: ${NBITCOIN_NETWORK:-testnet}
       NAVIO_EXTRA_ARGS: |
-        rpcport=33577
-        rpcbind=0.0.0.0:33577
+        rpcport=33677
+        rpcbind=0.0.0.0:33677
         rpcallowip=0.0.0.0/0
-        port=33570
+        port=33670
         whitelist=0.0.0.0/0
     expose:
-      - "33577"
-      - "33570"
+      - "33677"
+      - "33670"
     volumes:
       - "navio_datadir:/data"
       - "navio_wallet_datadir:/walletdata"
@@ -23,8 +23,8 @@ services:
   nbxplorer:
     environment:
       NBXPLORER_CHAINS: "nav"
-      NBXPLORER_NAVRPCURL: http://naviod:33577/
-      NBXPLORER_NAVNODEENDPOINT: naviod:33570
+      NBXPLORER_NAVRPCURL: http://naviod:33677/
+      NBXPLORER_NAVNODEENDPOINT: naviod:33670
       # Native P/Invoke needs libblsct.so for BLSCT address derivation
       LD_LIBRARY_PATH: "/opt/libblsct"
     depends_on:
